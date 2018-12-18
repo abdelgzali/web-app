@@ -1,6 +1,7 @@
 {
   "name": "hoop-trade",
   "version": "0.1.0",
+  "author": "Abd El-Ghazali",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
