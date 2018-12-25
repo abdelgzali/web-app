@@ -1,15 +1,18 @@
 <template lang="html">
   <div class="parent-container">
-    <h3>{{player}}</h3>
-    <h4>2018 Season stats (per game):</h4>
-    <p>FG: {{fg}}%</p>
-    <p>FT: {{ft}}%</p>
-    <p>PPG: {{points}}</p>
-    <p>Assists: {{assists}}</p>
-    <p>Rebounds: {{rebounds}}</p>
-    <p>Steals: {{steals}}</p>
-    <p>Blocks: {{blocks}}</p>
-    <p>Turnovers: {{turnovers}}</p>
+    <input class="search-bar" placeholder="search player" v-model="searchName" @input="findPlayer">
+    <div class="player-card">
+      <h3>{{player}}</h3>
+      <h4>2018 Season stats (per game):</h4>
+      <p>FG: {{fg}}%</p>
+      <p>FT: {{ft}}%</p>
+      <p>PPG: {{points}}</p>
+      <p>Assists: {{assists}}</p>
+      <p>Rebounds: {{rebounds}}</p>
+      <p>Steals: {{steals}}</p>
+      <p>Blocks: {{blocks}}</p>
+      <p>Turnovers: {{turnovers}}</p>
+    </div>
   </div>
 </template>
 
@@ -18,7 +21,9 @@
 export default {
   data () {
     return {
-      player: 'Alex Abrines',
+      playersList: [],
+      searchName: '',
+      player: '',
       fg: '',
       ft: '',
       threes: '',
@@ -32,22 +37,50 @@ export default {
     }
   },
   created: function() {
-    fetch('http://data.nba.net/10s/prod/v1/2018/players/203518_profile.json')
+    fetch('https://data.nba.net/10s/prod/v1/2018/players.json')
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
-        this.fg = data.league.standard.stats.latest.fgp;
-        this.ft = data.league.standard.stats.latest.ftp;
-        this.points = data.league.standard.stats.latest.ppg;
-        this.assists = data.league.standard.stats.latest.apg;
-        this.rebounds = data.league.standard.stats.latest.rpg;
-        this.steals = data.league.standard.stats.latest.spg;
-        this.blocks = data.league.standard.stats.latest.bpg;
-        this.turnovers = data.league.standard.stats.latest.t0pg;
+        this.playersList = data.league.standard;
+        //console.log(this.playersList);
       })
       .catch((err) => {
         console.log(err);
       })
+  },
+  methods: {
+    findPlayer() {
+      const list = this.playersList;
+      list.forEach((player) => {
+        let foundName = player.firstName + " " + player.lastName;
+        // fuzzy search: foundName.toLowerCase().indexOf(this.searchName.toLowerCase()) !== -1
+        if (foundName.toLowerCase() == this.searchName.toLowerCase()) {
+          console.log(foundName + " found");
+          this.player = foundName;
+          this.getStats(player.personId);
+
+        }
+      })
+    },
+    getStats(id) {
+      console.log("looking up player");
+      let uri = "https://data.nba.net/10s/prod/v1/2018/players/" + id +"_profile.json";
+      fetch(uri)
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          this.fg = data.league.standard.stats.latest.fgp;
+          this.ft = data.league.standard.stats.latest.ftp;
+          this.points = data.league.standard.stats.latest.ppg;
+          this.assists = data.league.standard.stats.latest.apg;
+          this.rebounds = data.league.standard.stats.latest.rpg;
+          this.steals = data.league.standard.stats.latest.spg;
+          this.blocks = data.league.standard.stats.latest.bpg;
+          this.turnovers = data.league.standard.stats.latest.topg;
+        })
+        .catch((err) => {
+          console.log(err);
+        })
+    }
   }
 }
 </script>
@@ -56,14 +89,30 @@ export default {
 $primary: #F21A13;
 $secondary: #1D428A;
 
-.parent-container {
-  width: 300px;
-  margin: 20px auto;
-  background: #ecf0f1;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-  padding: 20px 40px;
+*:focus {
+    outline: none;
 }
 
+.parent-container {
+}
+
+.search-bar {
+  padding: 5px 40px;
+  margin: 20px auto;
+  width: 300px;
+  height: 35px;
+  border: 1px solid $secondary;
+  border-radius: 40px;
+}
+
+
+.player-card {
+  background: #ecf0f1;
+  padding: 20px 40px;
+  margin: 20px auto;
+  width: 300px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
 .parent-container h4 {
   color: $secondary;
 }
