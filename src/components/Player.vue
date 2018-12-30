@@ -13,6 +13,9 @@
       <p>Blocks: {{blocks}}</p>
       <p>Turnovers: {{turnovers}}</p>
     </div>
+    <table id="table">
+
+    </table>
   </div>
 </template>
 
@@ -37,6 +40,7 @@ export default {
     }
   },
   created: function() {
+    // full list of NBA players
     fetch('https://data.nba.net/10s/prod/v1/2018/players.json')
       .then((res) => res.json())
       .then((data) => {
@@ -45,6 +49,28 @@ export default {
       })
       .catch((err) => {
         console.log(err);
+      });
+
+    // NBA PLAYER STATS & COMPUTED Z-SCORES (WEIGHTED) via FB-Ninja
+    // fetch JSON from file
+    fetch("players.xlsx")
+      .then((res) => {
+        // get data as blob
+        if(!res.ok) throw new Error ("Players data fetch failed");
+        return res.arrayBuffer();
+      })
+      .then ((ab) => {
+        // parse data
+        const data = new Uint8Array(ab);
+        const XLSX = require('xlsx');
+        const wb = XLSX.read(data, {
+          type:"array"
+        });
+        // store data in JSON array
+        const sheet = wb.SheetNames[0];
+        const playerSheet = wb.Sheets[sheet];
+        const playerJSON = XLSX.utils.sheet_to_json(playerSheet);
+        console.log(playerJSON);
       })
   },
   methods: {
