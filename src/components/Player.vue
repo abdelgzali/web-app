@@ -1,6 +1,9 @@
 <template lang="html">
   <div class="parent-container">
-    <input class="search-bar" placeholder="search player" v-model="searchName" @input="findPlayer">
+    <div class="search">
+      <input class="search-bar" placeholder="search player" v-model="searchName" @input="findPlayer">
+      <Autocomplete :items="playerNames" v-bind:tQuery="searchName" @selected="playerSelected"/>
+    </div>
     <div class="player-card">
       <h3>{{player}}</h3>
       <img v-bind:src="source" alt="head-shot">
@@ -23,11 +26,17 @@
 </template>
 
 <script>
+import Autocomplete from './Autocomplete';
 
 export default {
+  components: {
+    Autocomplete,
+  },
   data () {
     return {
       playersList: [],
+      playerNames: [],
+      matchList: [],
       searchName: '',
       player: '',
       source: 'ballswirl.png',
@@ -75,29 +84,40 @@ export default {
         const sheet = wb.SheetNames[0];
         const playerSheet = wb.Sheets[sheet];
         this.playersList = XLSX.utils.sheet_to_json(playerSheet);
-        console.log(this.playersList);
-      })
+        this.indexNames();
+      });
+
   },
+
   methods: {
-    findPlayer() {
+    indexNames() {
       const list = this.playersList;
-      let index = 0;
       list.forEach((player) => {
+        let name = player.NAME;
+        this.playerNames.push(name);
+      });
+    },
+
+    playerSelected(player) {
+      this.searchName = player;
+      this.findPlayer();
+    },
+    findPlayer() {
+      let index = 0;
+      this.playersList.forEach((player) => {
         let foundName = player.NAME;
-        // fuzzy search: foundName.toLowerCase().indexOf(this.searchName.toLowerCase()) !== -1
         if (foundName.toLowerCase() == this.searchName.toLowerCase()) {
           console.log(foundName + " found");
           this.player = foundName;
           this.getStats(index);
           this.setImg(foundName);
-
+          this.findMatch(index);
         };
         index++;
-      })
+      });
     },
     getStats(id) {
       const list = this.playersList;
-      console.log(list[id]);
       this.fg = list[id]["FG%"].toFixed(3);
       this.ft = list[id]["FT%"].toFixed(3);
       this.threes = list[id]["3P"].toFixed(2);
@@ -114,6 +134,27 @@ export default {
       let firstName = name.split(' ').slice(0, -1).join(' ');
       let lastName = name.split(' ').slice(-1).join(' ');
       this.source = "https://nba-players.herokuapp.com/players/" + lastName + "/" + firstName;
+    },
+
+    findMatch(index) {
+      let tempList = [];
+      if(index < 5) {
+        for(let i = 0; i < 10; i++) {
+          if(i != index) {
+            tempList.push(this.playersList[i]);
+          }
+        }
+      } if(index >= 5) {
+        for (let i = (index - 5); i <= (index + 5); i++) {
+          if(i != index) {
+            this.playersList[i];
+            tempList.push(this.playersList[i]);
+          }
+        }
+      }
+      this.matchList = tempList;
+      console.log(this.matchList);
+      this.searchName = '';
     }
   }
 }
@@ -127,16 +168,26 @@ $secondary: #1D428A;
     outline: none;
 }
 
-.parent-container {
+.search {
+  width: 380px;
+  margin: auto;
+  border: 1px solid $secondary;
+  border-radius: 40px;
+  transition: all .5s linear;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+
+}
+
+.search:hover {
+  border-radius: 5px;
+  transition: all .5s linear;
 }
 
 .search-bar {
-  padding: 5px 40px;
-  margin: 20px auto;
+  margin: 5px auto;
   width: 300px;
   height: 35px;
-  border: 1px solid $secondary;
-  border-radius: 40px;
+  border-style: none;
 }
 
 
