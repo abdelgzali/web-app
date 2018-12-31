@@ -5,32 +5,70 @@
       <Autocomplete :items="playerNames" v-bind:tQuery="searchName" @selected="playerSelected"/>
     </div>
     <div class="player-card">
-      <h3>{{player}}</h3>
-      <img v-bind:src="source" alt="head-shot">
-      <h4>2018 Season stats (per game):</h4>
-      <p id="value">VALUE: {{value}}</p>
-      <p>FG: {{fg}}%</p>
-      <p>FT: {{ft}}%</p>
-      <p>PPG: {{points}}</p>
-      <p>THREES: {{threes}}</p>
-      <p>Assists: {{assists}}</p>
-      <p>Rebounds: {{rebounds}}</p>
-      <p>Steals: {{steals}}</p>
-      <p>Blocks: {{blocks}}</p>
-      <p>Turnovers: {{turnovers}}</p>
+      <div id="profile">
+        <div id="profile-pic">
+          <img v-bind:src="source" alt="head-shot" id="head-shot">
+          <h3>{{player}}</h3>
+        </div>
+        <div id="profile-text">
+          <h4>2018 Season stats (per game):</h4>
+          <p id="value">VALUE: {{value}}</p>
+        </div>
+      </div>
+      <div id="stats">
+        <div class="stat-box">
+          <h4>FG:</h4>
+          <p>{{fg}}%</p>
+        </div>
+        <div class="stat-box">
+          <h4>FT:</h4>
+          <p>{{ft}}%</p>
+        </div>
+        <div class="stat-box">
+          <h4>PPG:</h4>
+          <p>{{points}}</p>
+        </div>
+        <div class="stat-box">
+          <h4>3P:</h4>
+          <p>{{threes}}</p>
+        </div>
+        <div class="stat-box">
+          <h4>AST:</h4>
+          <p>{{assists}}</p>
+        </div>
+        <div class="stat-box">
+          <h4>REB:</h4>
+          <p>{{rebounds}}</p>
+        </div>
+        <div class="stat-box">
+          <h4>STL:</h4>
+          <p>{{steals}}</p>
+        </div>
+        <div class="stat-box">
+          <h4>BLK:</h4>
+          <p>{{blocks}}</p>
+        </div>
+        <div class="stat-box">
+          <h4>TO:</h4>
+          <p>{{turnovers}}</p>
+        </div>
+      </div>
     </div>
-    <table id="table">
 
-    </table>
+    <div class="suggested">
+      <Suggested :players="matchList" v-bind:name="searchName"/>
+    </div>
   </div>
 </template>
 
 <script>
 import Autocomplete from './Autocomplete';
+import Suggested from './Suggested';
 
 export default {
   components: {
     Autocomplete,
+    Suggested
   },
   data () {
     return {
@@ -164,6 +202,17 @@ export default {
 $primary: #F21A13;
 $secondary: #1D428A;
 
+@mixin flex-row {
+  display: flex;
+  flex-flow: row nowrap;
+}
+
+@mixin flex-col {
+  display: flex;
+  flex-flow: column wrap;
+  align-items: stretch;
+}
+
 *:focus {
     outline: none;
 }
@@ -174,6 +223,7 @@ $secondary: #1D428A;
   border: 1px solid $secondary;
   border-radius: 40px;
   transition: all .5s linear;
+  background: rgb(255, 255, 255);
   box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
 
 }
@@ -192,17 +242,43 @@ $secondary: #1D428A;
 
 
 .player-card {
-  background: #ecf0f1;
+  @include flex-col;
+  background: rgb(255, 255, 255);
   padding: 20px 40px;
-  margin: 20px auto;
-  width: 300px;
+  margin: 40px auto;
+  width: 80%;
   box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
 }
-.parent-container h4 {
-  color: $secondary;
+
+#profile {
+  @include flex-row;
 }
 
-.parent-container h3 {
+#stats {
+  @include flex-row;
+  justify-content: space-between;
+}
+
+.stat-box {
+  width: 100%;
+}
+#profile-pic {
+  width: 33%;
+}
+
+#profile-text {
+  padding-left: 10px;
+  text-align: left;
+}
+#head-shot {
+  width: 100%;
+  padding: 5px;
+}
+.player-card h4 {
+  color: #fff;
+}
+
+.player-card h3 {
   color: $primary;
 }
 
