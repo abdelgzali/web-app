@@ -4,58 +4,10 @@
       <input class="search-bar" placeholder="search player" v-model="searchName" @input="findPlayer">
       <Autocomplete :items="playerNames" v-bind:tQuery="searchName" @selected="playerSelected"/>
     </div>
-    <div class="player-card">
-      <div id="profile">
-        <div id="profile-pic">
-          <img v-bind:src="source" alt="head-shot" id="head-shot">
-          <h3>{{player}}</h3>
-        </div>
-        <div id="profile-text">
-          <h4>2018 Season stats (per game):</h4>
-          <p id="value">VALUE: {{value}}</p>
-        </div>
-      </div>
-      <div id="stats">
-        <div class="stat-box">
-          <h4>FG:</h4>
-          <p>{{fg}}%</p>
-        </div>
-        <div class="stat-box">
-          <h4>FT:</h4>
-          <p>{{ft}}%</p>
-        </div>
-        <div class="stat-box">
-          <h4>PPG:</h4>
-          <p>{{points}}</p>
-        </div>
-        <div class="stat-box">
-          <h4>3P:</h4>
-          <p>{{threes}}</p>
-        </div>
-        <div class="stat-box">
-          <h4>AST:</h4>
-          <p>{{assists}}</p>
-        </div>
-        <div class="stat-box">
-          <h4>REB:</h4>
-          <p>{{rebounds}}</p>
-        </div>
-        <div class="stat-box">
-          <h4>STL:</h4>
-          <p>{{steals}}</p>
-        </div>
-        <div class="stat-box">
-          <h4>BLK:</h4>
-          <p>{{blocks}}</p>
-        </div>
-        <div class="stat-box">
-          <h4>TO:</h4>
-          <p>{{turnovers}}</p>
-        </div>
-      </div>
+    <div class="found-player">
+      <Suggested :players="playerJSON" v-bind:name="searchName"/>
     </div>
-
-    <div class="suggested">
+    <div class="suggested-players">
       <Suggested :players="matchList" v-bind:name="searchName"/>
     </div>
   </div>
@@ -76,6 +28,7 @@ export default {
       playerNames: [],
       matchList: [],
       searchName: '',
+      playerJSON: [],
       player: '',
       source: 'ballswirl.png',
       fg: '',
@@ -142,6 +95,7 @@ export default {
     },
     findPlayer() {
       let index = 0;
+      this.playerJSON = [],
       this.playersList.forEach((player) => {
         let foundName = player.NAME;
         if (foundName.toLowerCase() == this.searchName.toLowerCase()) {
@@ -150,6 +104,7 @@ export default {
           this.getStats(index);
           this.setImg(foundName);
           this.findMatch(index);
+          this.playerJSON.push(player);
         };
         index++;
       });
@@ -202,17 +157,6 @@ export default {
 $primary: #F21A13;
 $secondary: #1D428A;
 
-@mixin flex-row {
-  display: flex;
-  flex-flow: row nowrap;
-}
-
-@mixin flex-col {
-  display: flex;
-  flex-flow: column wrap;
-  align-items: stretch;
-}
-
 *:focus {
     outline: none;
 }
@@ -240,50 +184,4 @@ $secondary: #1D428A;
   border-style: none;
 }
 
-
-.player-card {
-  @include flex-col;
-  background: rgb(255, 255, 255);
-  padding: 20px 40px;
-  margin: 40px auto;
-  width: 80%;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-}
-
-#profile {
-  @include flex-row;
-}
-
-#stats {
-  @include flex-row;
-  justify-content: space-between;
-}
-
-.stat-box {
-  width: 100%;
-}
-#profile-pic {
-  width: 33%;
-}
-
-#profile-text {
-  padding-left: 10px;
-  text-align: left;
-}
-#head-shot {
-  width: 100%;
-  padding: 5px;
-}
-.player-card h4 {
-  color: #fff;
-}
-
-.player-card h3 {
-  color: $primary;
-}
-
-#value {
-  color: $primary;
-  font-weight: bold;
-}
 </style>
