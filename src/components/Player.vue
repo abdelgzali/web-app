@@ -95,7 +95,6 @@ export default {
     },
     findPlayer() {
       let index = 0;
-      this.playerJSON = [],
       this.playersList.forEach((player) => {
         let foundName = player.NAME;
         if (foundName.toLowerCase() == this.searchName.toLowerCase()) {
@@ -169,7 +168,6 @@ $secondary: #1D428A;
   transition: all .5s linear;
   background: rgb(255, 255, 255);
   box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-
 }
 
 .search:hover {
@@ -179,9 +177,20 @@ $secondary: #1D428A;
 
 .search-bar {
   margin: 5px auto;
-  width: 300px;
+  width: 90%;
   height: 35px;
   border-style: none;
+}
+
+@media only screen and (max-width: 420px) {
+  .search {
+    width: 80vw;
+  }
+
+  .search-bar {
+    padding-left: 20px;
+    border-radius: 40px;
+  }
 }
 
 </style>
