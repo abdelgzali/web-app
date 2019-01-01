@@ -1,15 +1,18 @@
 <template lang="html">
   <div class="parent-container">
     <div class="card" v-for="(suggested, index) in suggestions">
+      <div class="name-tag">
+        {{suggested.NAME}}
+      </div>
       <div id="profile">
         <div id="profile-pic">
           <img v-bind:src="setImg(suggested.NAME)" alt="head-shot" id="head-shot">
 
         </div>
         <div id="profile-text">
-          <div class="row">
-            <h3>{{suggested.NAME}}</h3>
-            <p id="value">VALUE: {{suggested.VALUE.toFixed(2)}}</p>
+          <div class="row" id="value">
+            <h4 id="value">VALUE</h4>
+            <p>{{suggested.VALUE.toFixed(2)}}</p>
           </div>
           <div class="row">
             <h4>Position</h4>
@@ -111,15 +114,27 @@ $secondary: #1D428A;
 .card {
   @include flex-col;
   background: rgb(255, 255, 255);
-  padding: 20px 40px;
   margin: 20px auto;
   width: 80%;
   height: auto;
   box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
 }
 
+.name-tag {
+  height: 30px;
+  width: 100%;
+  padding: 10px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #000;
+  color: #fff;
+  font-weight: bold;
+}
+
 #profile {
   @include flex-row;
+  justify-content: space-around;
   width: 100%;
   height: auto;
   padding: 20px 0;
@@ -133,10 +148,12 @@ $secondary: #1D428A;
 }
 
 #profile-text {
-  padding-left: 40px;
   text-align: left;
   margin: auto 0;
   width: 50%;
+}
+#value {
+  color: $primary;
 }
 
 #stats {
@@ -181,11 +198,6 @@ $secondary: #1D428A;
   margin: auto;
 }
 
-#value {
-  color: $primary;
-  font-weight: bold;
-}
-
 @media only screen and (max-width: 600px) {
   .card {
     width: 300px;
@@ -196,7 +208,7 @@ $secondary: #1D428A;
   }
   #profile-text {
     width: 40%;
-    padding-left: 20px;
+    padding: 0 20px;
   }
 }
 </style>
