@@ -1,7 +1,7 @@
 <template lang="html">
   <div class="parent-container">
     <div class="search">
-      <input class="search-bar" placeholder="search player" v-model="searchName" @input="findPlayer">
+      <input class="search-bar" placeholder="search player" v-model="searchName" @keyup="findPlayer" type="search">
       <Autocomplete :items="playerNames" v-bind:tQuery="searchName" @selected="playerSelected"/>
     </div>
     <div class="found-player">
@@ -103,6 +103,7 @@ export default {
           this.getStats(index);
           this.setImg(foundName);
           this.findMatch(index);
+          this.playerJSON = [];
           this.playerJSON.push(player);
         };
         index++;
@@ -184,7 +185,7 @@ $secondary: #1D428A;
 
 @media only screen and (max-width: 420px) {
   .search {
-    width: 80vw;
+    width: 300px;
   }
 
   .search-bar {
