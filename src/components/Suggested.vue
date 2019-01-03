@@ -81,8 +81,8 @@ export default {
   },
   computed: {
     suggestions() {
-      console.log(this.players + "...players logged");
-      return this.players;
+      //console.log(this.players + "...players logged");
+      return this.players.slice(0,10);
     }
   },
   methods: {

@@ -1,11 +1,8 @@
 <template lang="html">
   <div class="parent-container">
     <div class="search">
-      <input class="search-bar" placeholder="search player" v-model="searchName" @keyup="findPlayer" type="search">
+      <input class="search-bar" placeholder="search player" v-model="searchName" @keyup="searchName = $event.target.value; findPlayer" type="search">
       <Autocomplete :items="playerNames" v-bind:tQuery="searchName" @selected="playerSelected"/>
-    </div>
-    <div class="found-player">
-      <Suggested :players="playerJSON" v-bind:name="searchName"/>
     </div>
     <div class="suggested-players">
       <Suggested :players="matchList" v-bind:name="searchName"/>
@@ -130,23 +127,23 @@ export default {
     },
 
     findMatch(index) {
-      let tempList = [];
-      if(index < 5) {
-        for(let i = 0; i < 10; i++) {
-          if(i != index) {
-            tempList.push(this.playersList[i]);
-          }
+      console.log(index);
+      let list = this.playersList;
+      let searchedPlayer = this.playersList[index];
+      console.log(list);
+      list.sort((firstPlayer, secondPlayer) => {
+        let firstVal = Math.abs(firstPlayer.VALUE - searchedPlayer.VALUE);
+        let secondVal = Math.abs(secondPlayer.VALUE - searchedPlayer.VALUE);
+        if (firstVal > secondVal) {
+          return 1;
+        } else if (firstVal < secondVal) {
+          return -1
+        } else {
+          return 0;
         }
-      } if(index >= 5) {
-        for (let i = (index - 5); i <= (index + 5); i++) {
-          if(i != index) {
-            this.playersList[i];
-            tempList.push(this.playersList[i]);
-          }
-        }
-      }
-      this.matchList = tempList;
-      console.log(this.matchList);
+      })
+      console.log(list[0].NAME + " matches logged");
+      this.matchList = list;
       this.searchName = '';
     }
   }
