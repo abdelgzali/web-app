@@ -1,8 +1,16 @@
 <template lang="html">
   <div class="parent-container">
     <div class="search">
-      <input class="search-bar" placeholder="search player" v-model="searchName" @keyup="searchName = $event.target.value; findPlayer" type="search">
-      <Autocomplete :items="playerNames" v-bind:tQuery="searchName" @selected="playerSelected"/>
+      <input
+        class="search-bar"
+        placeholder="search active NBA players"
+        v-model="searchName"
+        @keyup="searchName = $event.target.value; findPlayer"
+        type="search">
+      <Autocomplete
+        :items="playerNames"
+        v-bind:tQuery="searchName"
+        @selected="playerSelected"/>
     </div>
     <div class="suggested-players">
       <Suggested :players="matchList" v-bind:name="searchName"/>
@@ -127,10 +135,8 @@ export default {
     },
 
     findMatch(index) {
-      console.log(index);
       let list = this.playersList;
       let searchedPlayer = this.playersList[index];
-      console.log(list);
       list.sort((firstPlayer, secondPlayer) => {
         let firstVal = Math.abs(firstPlayer.VALUE - searchedPlayer.VALUE);
         let secondVal = Math.abs(secondPlayer.VALUE - searchedPlayer.VALUE);
@@ -142,7 +148,7 @@ export default {
           return 0;
         }
       })
-      console.log(list[0].NAME + " matches logged");
+      //console.log(list[0].NAME + " matches logged");
       this.matchList = list;
       this.searchName = '';
     }

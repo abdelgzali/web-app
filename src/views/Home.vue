@@ -1,6 +1,5 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
     <Player/>
   </div>
 </template>
@@ -12,15 +11,10 @@ import Player from '@/components/Player.vue'
 export default {
   name: 'home',
   components: {
-    Player
+    Player,
   }
 }
 </script>
 
 <style lang="scss">
-
-.home img {
-  width: 40%;
-  height: auto;
-}
 </style>

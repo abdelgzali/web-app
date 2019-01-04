@@ -2,12 +2,11 @@
   <div class="parent-container">
     <div class="card" v-for="(suggested, index) in suggestions">
       <div class="name-tag">
-        {{suggested.NAME}}
+        {{nameTag(suggested.NAME)}}
       </div>
       <div id="profile">
         <div id="profile-pic">
           <img v-bind:src="setImg(suggested.NAME)" alt="head-shot" id="head-shot">
-
         </div>
         <div id="profile-text">
           <div class="row" id="value">
@@ -28,44 +27,76 @@
       <h4>2018 Season stats (per game):</h4>
       <div id="stats">
         <div class="stat-box">
+          <h4>PLAYER</h4>
+          <p id="name-bold">{{suggested.NAME}}</p>
+          <p id="name-bold">{{searchedPlayer.NAME}}</p>
+          <p id="name-bold">+/-</p>
+        </div>
+        <div class="stat-box">
+          <h4>VALUE</h4>
+          <p>{{suggested.VALUE.toFixed(3)}}</p>
+          <p>{{searchedPlayer.VALUE.toFixed(3)}}</p>
+          <p :class="{}">{{ (searchedPlayer.VALUE - suggested.VALUE).toFixed(3)}}</p>
+        </div>
+        <div class="stat-box">
           <h4>MPG</h4>
           <p>{{suggested.MINS}}</p>
+          <p>{{searchedPlayer.MINS}}</p>
+          <p :class="{}">{{calcDiff(searchedPlayer.MINS, suggested.MINS)}}</p>
         </div>
         <div class="stat-box">
           <h4>FG%</h4>
-          <p>{{(suggested["FG%"]*100).toFixed(1) }}</p>
+          <p>{{(suggested["FG%"]*100).toFixed(1)}}</p>
+          <p>{{(searchedPlayer["FG%"]*100).toFixed(1)}}</p>
+          <p :class="{}">{{calcDiff(searchedPlayer["FG%"]*100, suggested["FG%"]*100)}}</p>
         </div>
         <div class="stat-box">
           <h4>FT%</h4>
           <p>{{(suggested["FT%"]* 100).toFixed(1)}}</p>
+          <p>{{(searchedPlayer["FT%"]* 100).toFixed(1)}}</p>
+          <p :class="{}">{{calcDiff(searchedPlayer["FT%"]*100, suggested["FT%"]*100)}}</p>
         </div>
         <div class="stat-box">
           <h4>PPG</h4>
-          <p>{{suggested.PTS.toFixed(2)}}</p>
+          <p>{{suggested.PTS.toFixed(1)}}</p>
+          <p>{{searchedPlayer.PTS.toFixed(1)}}</p>
+          <p :class="{}">{{calcDiff(searchedPlayer.PTS, suggested.PTS)}}</p>
         </div>
         <div class="stat-box">
           <h4>3P</h4>
           <p>{{suggested["3P"].toFixed(2)}}</p>
+          <p>{{searchedPlayer["3P"].toFixed(2)}}</p>
+          <p :class="{}">{{calcDiff(searchedPlayer["3P"], suggested["3P"])}}</p>
         </div>
         <div class="stat-box">
           <h4>AST</h4>
           <p>{{suggested.AST.toFixed(2)}}</p>
+          <p>{{searchedPlayer.AST.toFixed(2)}}</p>
+          <p :class="{}">{{calcDiff(searchedPlayer.AST, suggested.AST)}}</p>
         </div>
         <div class="stat-box">
           <h4>REB</h4>
           <p>{{suggested.REB.toFixed(2)}}</p>
+          <p>{{searchedPlayer.REB.toFixed(2)}}</p>
+          <p :class="{}">{{calcDiff(searchedPlayer.REB, suggested.REB)}}</p>
         </div>
         <div class="stat-box">
           <h4>STL</h4>
           <p>{{suggested.STL.toFixed(2)}}</p>
+          <p>{{searchedPlayer.STL.toFixed(2)}}</p>
+          <p :class="{}">{{calcDiff(searchedPlayer.STL, suggested.STL)}}</p>
         </div>
         <div class="stat-box">
           <h4>BLK</h4>
           <p>{{suggested.BLK.toFixed(2)}}</p>
+          <p>{{searchedPlayer.BLK.toFixed(2)}}</p>
+          <p :class="{}">{{calcDiff(searchedPlayer.BLK, suggested.BLK)}}</p>
         </div>
         <div class="stat-box">
           <h4>TO</h4>
           <p>{{suggested.TO.toFixed(2)}}</p>
+          <p>{{searchedPlayer.TO.toFixed(2)}}</p>
+          <p :class="{}">{{calcDiff(searchedPlayer.TO, suggested.TO)}}</p>
         </div>
       </div>
     </div>
@@ -82,8 +113,11 @@ export default {
   computed: {
     suggestions() {
       //console.log(this.players + "...players logged");
-      return this.players.slice(0,10);
-    }
+      return this.players.slice(1,11);
+    },
+    searchedPlayer() {
+      return this.players[0];
+    },
   },
   methods: {
     setImg(name) {
@@ -91,6 +125,16 @@ export default {
       let lastName = name.split(' ').slice(-1).join(' ');
       return this.source = "https://nba-players.herokuapp.com/players/" + lastName + "/" + firstName
     },
+    nameTag(name) {
+      if (name == this.searchedPlayer.NAME) {
+        return name
+      } else {
+        return name + " for " + this.searchedPlayer.NAME;
+      }
+    },
+    calcDiff(valOne,valTwo) {
+      return (Number(valOne) - Number(valTwo)).toFixed(1)
+    }
   }
 }
 </script>
@@ -178,24 +222,39 @@ $secondary: #1D428A;
 
 .stat-box {
   width: 100%;
-  background-color: $secondary;
+  background-color: #fff;
+  white-space: nowrap;
 }
 
 .stat-box h4 {
+  background-color: $secondary;
   color: #fff;
   margin: 0;
   padding: 2px 6px;
 }
 
-.stat-box p {
-  background-color: #fff;
-  padding: 16px 0;
+#stats p {
+  padding: 16px 5px;
   margin: 0;
 }
 
 .stat-box p, h4 {
   font-size: 14px;
   margin: auto;
+}
+
+#name-bold {
+  font-weight: bold;
+}
+
+.neg {
+  background-color: $primary;
+  color: #fff;
+}
+
+.pos {
+  background-color: #27ae60;
+  color: #fff;
 }
 
 @media only screen and (max-width: 600px) {

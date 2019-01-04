@@ -37,7 +37,7 @@ export default {
       if(this.query == '') {
         this.visible = false;
       }
-      if (this.query.length > 3) {
+      if (this.query.length > 2) {
         this.visible = true;
         return this.items.filter((item) => item.toLowerCase().includes(this.query.toLowerCase()))
       }
