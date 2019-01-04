@@ -1,6 +1,6 @@
 nav<template>
   <div id="app">
-    <img id="logo" alt="Vue logo" src="logo.png">
+    <img id="logo" alt="Vue logo" src="../public/logo.png">
     <div id="nav">
       <ul>
         <li><router-link to="/">Home</router-link></li>
