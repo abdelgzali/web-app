@@ -1,11 +1,11 @@
 nav<template>
   <div id="app">
-    <img id="logo" alt="Vue logo" src="../public/logo.png">
     <div id="nav">
       <ul>
-        <li><router-link to="/">Home</router-link></li>
-        <li><router-link to="/about">About</router-link></li>
+        <li><router-link to="/"></router-link></li>
+        <li><router-link to="/about"></router-link></li>
       </ul>
+      <img id="logo" alt="Vue logo" src="../public/logo2.png">
     </div>
     <router-view/>
   </div>
@@ -24,18 +24,17 @@ $secondary: #1D428A;
   color: #2c3e50;
 }
 #logo {
-  width: 240px;
-  height: auto;
+  height: 100px;
+  width: auto;
 }
 
 #nav {
   position: relative;
   width: 100%;
-  height: 50px;
-  line-height: 50px;
+  height: auto;
   text-align: center;
-  background: $secondary;
-  margin-bottom: 20px;
+  padding: 10px 0;
+  background: #000;
 }
 
 /* NAVIGATION*/
@@ -44,26 +43,36 @@ $secondary: #1D428A;
   list-style: none;
   display: flex;
   flex-flow: row-wrap;
-  justify-content: center;
+  justify-content: flex-end;
   text-align: center;
   margin: auto;
-  padding: 0;
+  overflow: visible;
+  padding: 20px 0 10px 0;
+
 }
 
 #nav li {
   display: inline-block;
-  padding: 0 30px;
+  padding: 10px 20px;
   color: #fff;
 }
 
 #nav li:hover {
-  background: $primary;
   cursor: pointer;
-  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
 }
 
 #nav a:-webkit-any-link {
+  padding: 0 20px;
   color: #fff;
   text-decoration: none;
 }
+
+#nav a:-webkit-any-link:hover {
+  text-decoration: underline;
+}
+
+@media only screen and (max-width: 600px) {
+
+}
+
 </style>

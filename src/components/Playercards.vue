@@ -36,67 +36,100 @@
           <h4>VALUE</h4>
           <p>{{suggested.VALUE.toFixed(3)}}</p>
           <p>{{searchedPlayer.VALUE.toFixed(3)}}</p>
-          <p :class="{}">{{ (searchedPlayer.VALUE - suggested.VALUE).toFixed(3)}}</p>
+          <p :class="{
+            'pos': difference[index].VALUE > 0,
+            'neg': difference[index].VALUE < 0
+            }">{{difference[index].VALUE}}</p>
         </div>
         <div class="stat-box">
           <h4>MPG</h4>
           <p>{{suggested.MINS}}</p>
           <p>{{searchedPlayer.MINS}}</p>
-          <p :class="{}">{{calcDiff(searchedPlayer.MINS, suggested.MINS)}}</p>
+          <p :class="{
+            'pos': difference[index].MINS > 0,
+            'neg': difference[index].MINS < 0
+            }">{{difference[index].MINS}}</p>
         </div>
         <div class="stat-box">
           <h4>FG%</h4>
           <p>{{(suggested["FG%"]*100).toFixed(1)}}</p>
           <p>{{(searchedPlayer["FG%"]*100).toFixed(1)}}</p>
-          <p :class="{}">{{calcDiff(searchedPlayer["FG%"]*100, suggested["FG%"]*100)}}</p>
+          <p :class="{
+            'pos': difference[index].FG > 0,
+            'neg': difference[index].FG < 0
+            }">{{difference[index].FG}}</p>
         </div>
         <div class="stat-box">
           <h4>FT%</h4>
           <p>{{(suggested["FT%"]* 100).toFixed(1)}}</p>
           <p>{{(searchedPlayer["FT%"]* 100).toFixed(1)}}</p>
-          <p :class="{}">{{calcDiff(searchedPlayer["FT%"]*100, suggested["FT%"]*100)}}</p>
+          <p :class="{
+            'pos': difference[index].FT > 0,
+            'neg': difference[index].FT < 0
+            }">{{difference[index].FT}}</p>
         </div>
         <div class="stat-box">
           <h4>PPG</h4>
           <p>{{suggested.PTS.toFixed(1)}}</p>
           <p>{{searchedPlayer.PTS.toFixed(1)}}</p>
-          <p :class="{}">{{calcDiff(searchedPlayer.PTS, suggested.PTS)}}</p>
+          <p :class="{
+            'pos': difference[index].PTS > 0,
+            'neg': difference[index].PTS < 0
+            }">{{difference[index].PTS}}</p>
         </div>
         <div class="stat-box">
           <h4>3P</h4>
           <p>{{suggested["3P"].toFixed(2)}}</p>
           <p>{{searchedPlayer["3P"].toFixed(2)}}</p>
-          <p :class="{}">{{calcDiff(searchedPlayer["3P"], suggested["3P"])}}</p>
+          <p :class="{
+            'pos': difference[index].THREES > 0,
+            'neg': difference[index].THREES < 0
+            }">{{difference[index].THREES}}</p>
         </div>
         <div class="stat-box">
           <h4>AST</h4>
           <p>{{suggested.AST.toFixed(2)}}</p>
           <p>{{searchedPlayer.AST.toFixed(2)}}</p>
-          <p :class="{}">{{calcDiff(searchedPlayer.AST, suggested.AST)}}</p>
+          <p :class="{
+            'pos': difference[index].AST > 0,
+            'neg': difference[index].AST < 0
+            }">{{difference[index].AST}}</p>
         </div>
         <div class="stat-box">
           <h4>REB</h4>
           <p>{{suggested.REB.toFixed(2)}}</p>
           <p>{{searchedPlayer.REB.toFixed(2)}}</p>
-          <p :class="{}">{{calcDiff(searchedPlayer.REB, suggested.REB)}}</p>
+          <p :class="{
+            'pos': difference[index].REB > 0,
+            'neg': difference[index].REB < 0
+            }">{{difference[index].REB}}</p>
         </div>
         <div class="stat-box">
           <h4>STL</h4>
           <p>{{suggested.STL.toFixed(2)}}</p>
           <p>{{searchedPlayer.STL.toFixed(2)}}</p>
-          <p :class="{}">{{calcDiff(searchedPlayer.STL, suggested.STL)}}</p>
+          <p :class="{
+            'pos': difference[index].STL > 0,
+            'neg': difference[index].STL < 0
+            }">{{difference[index].STL}}</p>
         </div>
         <div class="stat-box">
           <h4>BLK</h4>
           <p>{{suggested.BLK.toFixed(2)}}</p>
           <p>{{searchedPlayer.BLK.toFixed(2)}}</p>
-          <p :class="{}">{{calcDiff(searchedPlayer.BLK, suggested.BLK)}}</p>
+          <p :class="{
+            'pos': difference[index].BLK > 0,
+            'neg': difference[index].BLK < 0
+            }">{{difference[index].BLK}}</p>
         </div>
         <div class="stat-box">
           <h4>TO</h4>
           <p>{{suggested.TO.toFixed(2)}}</p>
           <p>{{searchedPlayer.TO.toFixed(2)}}</p>
-          <p :class="{}">{{calcDiff(searchedPlayer.TO, suggested.TO)}}</p>
+          <p :class="{
+            'pos': difference[index].TO > 0,
+            'neg': difference[index].TO < 0
+            }">{{difference[index].TO}}</p>
         </div>
       </div>
     </div>
@@ -108,15 +141,39 @@ export default {
   props: ['players','name'],
   data() {
     return {
+      posValue: true,
+      diff: 5,
     };
   },
   computed: {
     suggestions() {
-      //console.log(this.players + "...players logged");
-      return this.players.slice(1,11);
+      console.log(this.players + "...players logged");
+      let finalMatchList = this.players.slice(1,11);
+      return finalMatchList;
     },
     searchedPlayer() {
       return this.players[0];
+    },
+    // maps array of objects of +/- values for each suggested player
+    difference() {
+      return this.suggestions.map((suggested) => {
+        let diffValues = {
+          VALUE: (suggested.VALUE - this.searchedPlayer.VALUE).toFixed(3),
+          MINS: (suggested.MINS - this.searchedPlayer.MINS).toFixed(2),
+          FG: (suggested["FG%"]*100 - this.searchedPlayer["FG%"]*100).toFixed(1),
+          FT: (suggested["FT%"]*100 - this.searchedPlayer["FT%"]*100).toFixed(1),
+          PTS: (suggested.PTS - this.searchedPlayer.PTS).toFixed(1),
+          THREES: (suggested["3P"] - this.searchedPlayer["3P"]).toFixed(2),
+          AST: (suggested.AST - this.searchedPlayer.AST).toFixed(2),
+          REB: (suggested.REB - this.searchedPlayer.REB).toFixed(2),
+          STL: (suggested.STL - this.searchedPlayer.STL).toFixed(2),
+          BLK: (suggested.BLK - this.searchedPlayer.BLK).toFixed(2),
+          TO: (suggested.TO - this.searchedPlayer.TO).toFixed(2),
+
+
+        }
+        return diffValues;
+      })
     },
   },
   methods: {
@@ -133,7 +190,15 @@ export default {
       }
     },
     calcDiff(valOne,valTwo) {
-      return (Number(valOne) - Number(valTwo)).toFixed(1)
+      // this.posValue = false;
+      // let diff = (Number(valTwo) - Number(valOne)).toFixed(1);
+      // //console.log(diff);
+      // if (diff > 0) {
+      //   //console.log("posvalue is true")
+      //   this.difference = diff;
+      //   this.posValue = true;
+      // }
+      // return diff
     }
   }
 }
