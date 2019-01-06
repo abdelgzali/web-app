@@ -24,20 +24,19 @@ $secondary: #1D428A;
   color: #2c3e50;
 }
 #logo {
-  height: 100px;
+  height: 75px;
   width: auto;
 }
 
+/* NAVIGATION*/
 #nav {
   position: relative;
   width: 100%;
   height: auto;
   text-align: center;
   padding: 10px 0;
-  background: #000;
+  background-color: #000;
 }
-
-/* NAVIGATION*/
 
 #nav ul {
   list-style: none;
@@ -72,7 +71,12 @@ $secondary: #1D428A;
 }
 
 @media only screen and (max-width: 600px) {
-
+  #logo {
+    position: absolute;
+    height: 50px;
+    left: 20px;
+    top: 20px;
+  }
 }
 
 </style>

@@ -1,6 +1,10 @@
 <template lang="html">
   <div class="parent-container">
     <div class="blk-bg">
+      <div class="big-text">
+        <p id="title">Need fantasy basketball trade recommendations?</p>
+        <p>Don't worry, we won't suggest Ricky Rubio</p>
+      </div>
       <div class="search">
         <input
           class="search-bar"
@@ -118,19 +122,41 @@ export default {
 $primary: #F21A13;
 $secondary: #1D428A;
 
+@mixin flex-col {
+  display: flex;
+  flex-flow: column wrap;
+  align-items: stretch;
+}
+
 *:focus {
     outline: none;
+}
+
+#title {
+  color: #fff;
+  font-family: sans-serif;
+  font-weight: bold;
+  font-size: 24px;
+  margin: 0;
 }
 
 .blk-bg {
   background: #000;
   width: 100%;
-  padding: 30px 0;
+  padding: 10px 0;
   box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+}
+
+.big-text {
+  @include flex-col;
+  justify-content: flex-end;
+  margin: 0;
+  padding: 10px 40px;
+  color: #bdc3c7;
 }
 .search {
   width: 380px;
-  margin: auto;
+  margin: 20px auto;
   border: 1px solid $secondary;
   border-radius: 40px;
   transition: all .5s linear;
