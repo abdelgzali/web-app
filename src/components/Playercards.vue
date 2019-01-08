@@ -385,8 +385,9 @@ button {
 }
 .filter-btns {
   @include flex-row;
-  justify-content: space-around;
+  justify-content: space-between;
   box-shadow: 0 1px 0 rgba(12,13,14,0.1), 0 1px 6px rgba(59,64,69,0.1);
+  overflow-x: scroll;
 }
 .filter-btns button {
   border: none;
