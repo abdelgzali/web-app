@@ -1,6 +1,18 @@
 <template lang="html">
   <div class="parent-container">
-    <div class="card" v-for="(suggested, index) in suggestions">
+    <div class="filter-by">
+      <p>Filter by:</p>
+      <button type="button" name="filter-btn" @click="sortBy('FG%')">FG%</button>
+      <button type="button" name="filter-btn" @click="sortBy('FT%')">FT%</button>
+      <button type="button" name="filter-btn" @click="sortBy('PTS')">PTS</button>
+      <button type="button" name="filter-btn" @click="sortBy('3P')">3P</button>
+      <button type="button" name="filter-btn" @click="sortBy('AST')">AST</button>
+      <button type="button" name="filter-btn" @click="sortBy('REB')">REB</button>
+      <button type="button" name="filter-btn" @click="sortBy('STL')">STL</button>
+      <button type="button" name="filter-btn" @click="sortBy('BLK')">BLK</button>
+      <button type="button" name="filter-btn" @click="sortBy('TO')">TO</button>
+    </div>
+    <div class="card" v-for="(suggested, index) in suggestions" v-model="suggestions">
       <div class="name-tag">
         {{nameTag(suggested.NAME)}}
       </div>
@@ -170,7 +182,6 @@ export default {
           BLK: (suggested.BLK - this.searchedPlayer.BLK).toFixed(2),
           TO: (suggested.TO - this.searchedPlayer.TO).toFixed(2),
 
-
         }
         return diffValues;
       })
@@ -189,16 +200,22 @@ export default {
         return name + " for " + this.searchedPlayer.NAME;
       }
     },
-    calcDiff(valOne,valTwo) {
-      // this.posValue = false;
-      // let diff = (Number(valTwo) - Number(valOne)).toFixed(1);
-      // //console.log(diff);
-      // if (diff > 0) {
-      //   //console.log("posvalue is true")
-      //   this.difference = diff;
-      //   this.posValue = true;
-      // }
-      // return diff
+    sortBy(category) {
+      let sortedList = this.players.slice(1,11);
+      console.log("sorting...")
+      sortedList.sort((firstPlayer, secondPlayer) => {
+        if (firstPlayer[category] < secondPlayer[category] ) {
+          console.log(firstPlayer[category]);
+          return 1
+        } else if (firstPlayer[category] > secondPlayer[category]) {
+          return -1
+        } else {
+          return 0
+        }
+      })
+      sortedList.unshift(this.players[0]);
+      console.log(sortedList);
+      this.players = sortedList;
     }
   }
 }
