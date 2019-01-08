@@ -209,11 +209,14 @@ export default {
         // prevent updating from parent prop when playersList isn't empty
         if(this.playersList.length == 0) {
           this.playersList = this.players;
+        } else if (this.playersList.length > 0 && this.playersList[0] != this.players[0]) {
+          this.playersList = this.players;
         }
         return this.playersList.slice(1,11);
       },
       set: function(newValue) {
         this.playersList = newValue;
+        console.log(this.playersList);
       }
     },
     searchedPlayer() {
@@ -305,7 +308,18 @@ button {
 }
 
 .suggestions-container {
-  margin-top: 40px;
+  background-color: #f5f7f9;
+  margin: 0 20vw;
+  padding: 20px 0;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  border-radius: 8px;
+
+  /* fade animation */
+  -webkit-animation: fadein 2s; /* Safari, Chrome and Opera > 12.1 */
+  -moz-animation: fadein 2s; /* Firefox < 16 */
+  -ms-animation: fadein 2s; /* Internet Explorer */
+  -o-animation: fadein 2s; /* Opera < 12.1 */
+  animation: fadein 2s;
 }
 
 #suggestions-title {
@@ -341,17 +355,17 @@ button {
   padding: 20px 0;
 }
 #profile-pic {
-  width: 33%;
+  width: 60%;
 }
 #head-shot {
   width: 100%;
-  padding: 5px;
 }
 
 #profile-text {
   text-align: left;
-  margin: auto 0;
-  width: 50%;
+  margin: auto;
+  width: 30%;
+  height: auto;
 }
 #value {
   color: $primary;
@@ -439,21 +453,63 @@ button {
 }
 
 .pos {
-  background-color: #27ae60;
+  background-color: rgba(22, 160, 133,1.0);
   color: #fff;
 }
 
 @media only screen and (max-width: 600px) {
+  .suggestions-container {
+    margin: 0 30px;
+  }
   .card {
     width: 300px;
     font-size: 12px;
-  }
-  #profile-pic {
-    width: 60%;
   }
   #profile-text {
     width: 40%;
     padding: 0 20px;
   }
 }
+
+@media only screen and (max-width: 457px) {
+  .filter-btns {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-between;
+  }
+  .filter-btns button {
+    width: 60px;
+  }
+}
+
+/* animation keyframes */
+@keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Firefox < 16 */
+@-moz-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Safari, Chrome and Opera > 12.1 */
+@-webkit-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Internet Explorer */
+@-ms-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+/* Opera < 12.1 */
+@-o-keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
 </style>

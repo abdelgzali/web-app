@@ -1,9 +1,12 @@
 <template lang="html">
-  <div class="parent-container">
-    <div class="blk-bg">
+  <div class="home-container">
+    <div :class="{
+        'bg': matchList.length == 0,
+        'bg-selected': matchList.length > 0
+      }">
       <div class="big-text">
         <p id="title">Need fantasy basketball trade recommendations?</p>
-        <p>Don't worry, we won't suggest Ricky Rubio</p>
+        <p>Type in a player you would like to trade, and we will offer suggestions</p>
       </div>
       <div class="search">
         <input
@@ -18,6 +21,7 @@
           @selected="playerSelected"/>
       </div>
     </div>
+    <i class="material-icons" id="arrow-down" v-if="matchList.length > 0">keyboard_arrow_down</i>
     <div class="suggested-players">
       <Playercards :players="matchList" v-bind:name="searchName"/>
     </div>
@@ -108,9 +112,7 @@ export default {
           return 0;
         }
       })
-      //console.log(list[0].NAME + " matches logged");
       this.matchList = list.slice(0,11);
-      //console.log(this.matchList);
       this.searchName = '';
     }
   }
@@ -121,12 +123,6 @@ export default {
 
 $primary: #F21A13;
 $secondary: #1D428A;
-
-@mixin flex-col {
-  display: flex;
-  flex-flow: column wrap;
-  align-items: stretch;
-}
 
 *:focus {
     outline: none;
@@ -140,33 +136,43 @@ $secondary: #1D428A;
   margin: 0;
 }
 
-.blk-bg {
-  background: #000;
+.bg {
   width: 100%;
-  padding: 10px 0;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+  height: calc(100vh - 30px);
+  display: flex;
+  justify-content: center;
+}
+
+.bg-selected {
+  width: 100%;
+  height: 70vh;
+  display: flex;
+  justify-content: center;
 }
 
 .big-text {
-  @include flex-col;
-  justify-content: flex-end;
+  position: absolute;
+  top: 33%;
+  text-align: center;
+  -ms-transform: translateY(-50%);
+  transform: translateY(-50%);
   margin: 0;
   padding: 10px 40px;
   color: #bdc3c7;
 }
 .search {
+  position: absolute;
+  top: 50%;
+  left: 50%;
   width: 380px;
-  margin: 20px auto;
+  overflow: visible;
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+  margin: auto;
+  box-sizing: border-box;
   border: 1px solid $secondary;
-  border-radius: 40px;
-  transition: all .5s linear;
   background: rgb(255, 255, 255);
   box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
-}
-
-.search:hover {
-  border-radius: 5px;
-  transition: all .5s linear;
 }
 
 .search-bar {
@@ -176,14 +182,34 @@ $secondary: #1D428A;
   border-style: none;
 }
 
+#arrow-down {
+  color: #fff;
+  padding-bottom: 20px;
+  animation: animated-bounce 2s ease;
+}
+
+@keyframes animated-bounce {
+    0%, 20%, 50%, 80%, 100% {transform: translateY(0)}
+    40% {transform: translateY(-30px)}
+    60% {transform: translateY(-15px)}
+}
+
 @media only screen and (max-width: 420px) {
+  .bg-selected {
+    height: 80vh;
+  }
+
+  .big-text {
+    top: 40%;
+  }
+
   .search {
-    width: 300px;
+    width: 342px;
+    top: 60%;
   }
 
   .search-bar {
     padding-left: 20px;
-    border-radius: 40px;
   }
 }
 </style>

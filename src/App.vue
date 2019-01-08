@@ -1,10 +1,6 @@
 nav<template>
   <div id="app">
     <div id="nav">
-      <ul>
-        <li><router-link to="/"></router-link></li>
-        <li><router-link to="/about"></router-link></li>
-      </ul>
       <img id="logo" alt="Vue logo" src="../public/logo2.png">
     </div>
     <router-view/>
@@ -22,60 +18,25 @@ $secondary: #1D428A;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  padding-bottom: 30px;
+
+  /* gradient */
+  background: #0F2027;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to left, #2C5364, #203A43, #0F2027);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to left, #2c3e50, #203A43, #0F2027); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
 }
 #logo {
+  position: absolute;
   height: 75px;
   width: auto;
-}
-
-/* NAVIGATION*/
-#nav {
-  position: relative;
-  width: 100%;
-  height: auto;
-  text-align: center;
-  padding: 10px 0;
-  background-color: #000;
-}
-
-#nav ul {
-  list-style: none;
-  display: flex;
-  flex-flow: row-wrap;
-  justify-content: flex-end;
-  text-align: center;
-  margin: auto;
-  overflow: visible;
-  padding: 20px 0 10px 0;
-
-}
-
-#nav li {
-  display: inline-block;
-  padding: 10px 20px;
-  color: #fff;
-}
-
-#nav li:hover {
-  cursor: pointer;
-}
-
-#nav a:-webkit-any-link {
-  padding: 0 20px;
-  color: #fff;
-  text-decoration: none;
-}
-
-#nav a:-webkit-any-link:hover {
-  text-decoration: underline;
+  left: 20px;
+  top: 20px;
 }
 
 @media only screen and (max-width: 600px) {
   #logo {
-    position: absolute;
     height: 50px;
-    left: 20px;
-    top: 20px;
   }
 }
 
