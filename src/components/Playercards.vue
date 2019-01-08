@@ -1,18 +1,20 @@
 <template lang="html">
-  <div class="parent-container">
-    <div class="filter-by">
-      <p>Filter by:</p>
-      <button type="button" name="filter-btn" @click="sortBy('FG%')">FG%</button>
-      <button type="button" name="filter-btn" @click="sortBy('FT%')">FT%</button>
-      <button type="button" name="filter-btn" @click="sortBy('PTS')">PTS</button>
-      <button type="button" name="filter-btn" @click="sortBy('3P')">3P</button>
-      <button type="button" name="filter-btn" @click="sortBy('AST')">AST</button>
-      <button type="button" name="filter-btn" @click="sortBy('REB')">REB</button>
-      <button type="button" name="filter-btn" @click="sortBy('STL')">STL</button>
-      <button type="button" name="filter-btn" @click="sortBy('BLK')">BLK</button>
-      <button type="button" name="filter-btn" @click="sortBy('TO')">TO</button>
+  <div class="suggestions-container" v-if="suggestions.length > 0">
+
+    <h3 id="suggestions-title">YOUR SUGGESTIONS</h3>
+
+    <div class="filter-btns">
+      <i class="material-icons">filter_list</i>
+      <button
+        type="button"
+        name="filter-btn"
+        v-for="(btn, index) in sortButtons"
+        @click="toggleSort(index) || sortBy(btn.category)"
+        :class="{active: btn.isActive}" >{{btn.category}}
+      </button>
     </div>
-    <div class="card" v-for="(suggested, index) in suggestions" v-model="suggestions">
+
+    <div class="card" v-for="(suggested, index) in suggestions">
       <div class="name-tag">
         {{nameTag(suggested.NAME)}}
       </div>
@@ -153,19 +155,71 @@ export default {
   props: ['players','name'],
   data() {
     return {
-      posValue: true,
-      diff: 5,
+      // mutate playersList, don't mutate suggestions
+      playersList: [],
+      sortButtons: [
+        {
+          category: 'VALUE',
+          isActive: false
+        },
+        {
+          category: 'FG%',
+          isActive: false
+        },
+        {
+          category: 'FT%',
+          isActive: false
+        },
+        {
+          category: 'PTS',
+          isActive: false
+        },
+        {
+          category: '3P',
+          isActive: false
+        },
+        {
+          category: 'AST',
+          isActive: false
+        },
+        {
+          category: 'REB',
+          isActive: false
+        },
+        {
+          category: 'STL',
+          isActive: false
+        },
+        {
+          category: 'BLK',
+          isActive: false
+        },
+        {
+          category: 'TO',
+          isActive: false
+        }
+      ]
     };
   },
   computed: {
-    suggestions() {
-      console.log(this.players + "...players logged");
-      let finalMatchList = this.players.slice(1,11);
-      return finalMatchList;
+
+    // computes list of suggestions for playercards, updates when playerList mutates
+    suggestions: {
+      get: function() {
+        // prevent updating from parent prop when playersList isn't empty
+        if(this.playersList.length == 0) {
+          this.playersList = this.players;
+        }
+        return this.playersList.slice(1,11);
+      },
+      set: function(newValue) {
+        this.playersList = newValue;
+      }
     },
     searchedPlayer() {
       return this.players[0];
     },
+
     // maps array of objects of +/- values for each suggested player
     difference() {
       return this.suggestions.map((suggested) => {
@@ -188,11 +242,13 @@ export default {
     },
   },
   methods: {
+    // dynamic url's for profile pic based on name
     setImg(name) {
       let firstName = name.split(' ').slice(0, -1).join(' ');
       let lastName = name.split(' ').slice(-1).join(' ');
       return this.source = "https://nba-players.herokuapp.com/players/" + lastName + "/" + firstName
     },
+
     nameTag(name) {
       if (name == this.searchedPlayer.NAME) {
         return name
@@ -200,12 +256,12 @@ export default {
         return name + " for " + this.searchedPlayer.NAME;
       }
     },
+
+    // re-sorts data from players prop (parent) and updates playersList
     sortBy(category) {
       let sortedList = this.players.slice(1,11);
-      console.log("sorting...")
       sortedList.sort((firstPlayer, secondPlayer) => {
         if (firstPlayer[category] < secondPlayer[category] ) {
-          console.log(firstPlayer[category]);
           return 1
         } else if (firstPlayer[category] > secondPlayer[category]) {
           return -1
@@ -214,9 +270,16 @@ export default {
         }
       })
       sortedList.unshift(this.players[0]);
-      console.log(sortedList);
-      this.players = sortedList;
+      this.playersList = sortedList;
+    },
+
+    toggleSort(index) {
+      this.sortButtons.forEach((button) => {
+        button.isActive = false
+      });
+      this.sortButtons[index].isActive = true;
     }
+
   }
 }
 </script>
@@ -235,6 +298,18 @@ $secondary: #1D428A;
   display: flex;
   flex-flow: column wrap;
   align-items: stretch;
+}
+
+button {
+  background: none;
+}
+
+.suggestions-container {
+  margin-top: 40px;
+}
+
+#suggestions-title {
+  margin: 40px auto;
 }
 
 .card {
@@ -282,6 +357,8 @@ $secondary: #1D428A;
   color: $primary;
 }
 
+
+/* STATS */
 #stats {
   @include flex-row;
   overflow: scroll;
@@ -302,6 +379,32 @@ $secondary: #1D428A;
   padding-top: 12px;
 }
 
+/* FILTERS */
+.material-icons {
+  margin: auto 5px;
+}
+.filter-btns {
+  @include flex-row;
+  justify-content: space-around;
+  box-shadow: 0 1px 0 rgba(12,13,14,0.1), 0 1px 6px rgba(59,64,69,0.1);
+}
+.filter-btns button {
+  border: none;
+  cursor: pointer;
+  height: 40px;
+  width: 100%;
+}
+
+.active {
+  background-color: $secondary;
+  color: #fff;
+  font-weight: bold;
+  background-position: center;
+  transition: background 0.5s;
+}
+
+
+/* STATS FOR PLAYERCARDS */
 .stat-box {
   width: 100%;
   background-color: #fff;
