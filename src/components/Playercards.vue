@@ -23,17 +23,27 @@
           <img v-bind:src="setImg(suggested.NAME)" alt="head-shot" id="head-shot">
         </div>
         <div id="profile-text">
-          <div class="row" id="value">
-            <h4 id="value">VALUE</h4>
-            <p>{{suggested.VALUE.toFixed(2)}}</p>
+          <div class="col" id="col-left">
+            <div class="col-txt-left">
+              <h4 id="value">VALUE</h4>
+            </div>
+            <div class="col-txt-left">
+              <h4>Position</h4>
+            </div>
+            <div class="col-txt-left">
+              <h4>Team</h4>
+            </div>
           </div>
-          <div class="row">
-            <h4>Position</h4>
-            <p>{{suggested.POS}}</p>
-          </div>
-          <div class="row">
-            <h4>Team</h4>
-            <p>{{suggested.TEAM}}</p>
+          <div class="col" id="col-right">
+            <div class="col-txt-right">
+              <h4 id="value">{{suggested.VALUE.toFixed(2)}}</h4>
+            </div>
+            <div class="col-txt-right">
+              <h4>{{suggested.POS}}</h4>
+            </div>
+            <div class="col-txt-right">
+              <h4>{{suggested.TEAM}}</h4>
+            </div>
           </div>
         </div>
       </div>
@@ -247,8 +257,14 @@ export default {
   methods: {
     // dynamic url's for profile pic based on name
     setImg(name) {
-      let firstName = name.split(' ').slice(0, -1).join(' ');
-      let lastName = name.split(' ').slice(-1).join(' ');
+      let nameArray = name.split(/[\s.-]+/);
+      let firstName = nameArray[0];
+      let lastName = nameArray[1];
+      if (nameArray.length > 2) {
+        let suffix = nameArray[2];
+        console.log("https://nba-players.herokuapp.com/players/" + lastName + "_" + suffix + "/" + firstName);
+        return this.source = "https://nba-players.herokuapp.com/players/" + lastName + "_" + suffix + "/" + firstName
+      }
       return this.source = "https://nba-players.herokuapp.com/players/" + lastName + "/" + firstName
     },
 
@@ -300,7 +316,6 @@ $secondary: #1D428A;
 @mixin flex-col {
   display: flex;
   flex-flow: column wrap;
-  align-items: stretch;
 }
 
 button {
@@ -309,7 +324,7 @@ button {
 
 .suggestions-container {
   background-color: #f5f7f9;
-  margin: 0 20vw;
+  margin: 0 10vw;
   padding: 20px 0;
   box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
   border-radius: 8px;
@@ -349,44 +364,37 @@ button {
 
 #profile {
   @include flex-row;
-  justify-content: space-around;
-  width: 100%;
+  width: calc(100% - 20px);
   height: auto;
-  padding: 20px 0;
+  padding: 5vh 10px;
 }
 #profile-pic {
   width: 60%;
+  padding: 0 5%;
 }
 #head-shot {
   width: 100%;
 }
-
 #profile-text {
+  @include flex-row;
+}
+#col-left {
+  @include flex-col;
   text-align: left;
-  margin: auto;
-  width: 30%;
-  height: auto;
+  justify-content: space-around;
+  padding: 0 10px;
+}
+.col-txt-left {
+  align-content: center;
+}
+#col-right {
+  @include flex-col;
+  text-align: right;
+  justify-content: space-around;
+  padding: 0 10px;
 }
 #value {
   color: $primary;
-}
-
-
-/* STATS */
-#stats {
-  @include flex-row;
-  overflow: scroll;
-}
-
-.row {
-  display: flex;
-  justify-content: space-between;
-  border-bottom: 1px solid #ecf0f1;
-
-  h4 {
-    color: #66737C;
-    margin: auto 0;
-  }
 }
 
 #stats {
@@ -419,7 +427,12 @@ button {
 }
 
 
-/* STATS FOR PLAYERCARDS */
+/* STATS */
+#stats {
+  @include flex-row;
+  overflow: scroll;
+}
+
 .stat-box {
   width: 100%;
   background-color: #fff;
@@ -462,12 +475,11 @@ button {
     margin: 0 30px;
   }
   .card {
-    width: 300px;
+    width: calc(100% - 30px);
     font-size: 12px;
   }
-  #profile-text {
-    width: 40%;
-    padding: 0 20px;
+  #profile-pic {
+    width: 50%;
   }
 }
 
@@ -478,7 +490,7 @@ button {
     justify-content: space-between;
   }
   .filter-btns button {
-    width: 60px;
+    width: 52px;
   }
 }
 

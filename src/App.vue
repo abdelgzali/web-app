@@ -1,11 +1,24 @@
-nav<template>
+<template>
   <div id="app">
     <div id="nav">
-      <img id="logo" alt="Vue logo" src="../public/logo2.png">
+      <Nav/>
+      <router-link :to="{ name: 'home' }">
+        <img id="logo" alt="Vue logo" src="../public/logo2.png">
+      </router-link>
     </div>
     <router-view/>
   </div>
 </template>
+
+<script>
+import Nav from '@/components/Nav'
+
+ export default {
+   components: {
+     Nav
+   }
+ }
+</script>
 
 <style lang="scss">
 
@@ -20,11 +33,6 @@ $secondary: #1D428A;
   color: #2c3e50;
   padding-bottom: 30px;
 
-  /* gradient */
-  background: #0F2027;  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to left, #2C5364, #203A43, #0F2027);  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to left, #2c3e50, #203A43, #0F2027); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
 }
 #logo {
   position: absolute;
@@ -36,7 +44,15 @@ $secondary: #1D428A;
 
 @media only screen and (max-width: 600px) {
   #logo {
+    left: auto;
+    right: 20px;
     height: 50px;
+  }
+  #menu {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    color: #fff;
   }
 }
 

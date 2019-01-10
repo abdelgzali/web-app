@@ -1,12 +1,15 @@
 <template lang="html">
   <div class="home-container">
     <div :class="{
-        'bg': matchList.length == 0,
-        'bg-selected': matchList.length > 0
+        'bg': searchName.length < 3,
+        'bg-selected': searchName.length >= 3 || matchList.length > 0
       }">
-      <div class="big-text">
+      <div :class="{
+          'big-text': searchName.length < 3,
+          'big-text-selected': searchName.length >= 3 || matchList.length > 0
+        }">
         <p id="title">Need fantasy basketball trade recommendations?</p>
-        <p>Type in a player you would like to trade, and we will offer suggestions</p>
+        <p>Pick a player you would like to trade, and we will offer suggestions</p>
       </div>
       <div class="search">
         <input
@@ -21,7 +24,9 @@
           @selected="playerSelected"/>
       </div>
     </div>
-    <i class="material-icons" id="arrow-down" v-if="matchList.length > 0">keyboard_arrow_down</i>
+    <div class="arrow-container">
+      <i class="material-icons" id="arrow-down" v-if="arrow">keyboard_arrow_down</i>
+    </div>
     <div class="suggested-players">
       <Playercards :players="matchList" v-bind:name="searchName"/>
     </div>
@@ -37,7 +42,7 @@ export default {
   name: 'home',
   components: {
     Autocomplete,
-    Playercards
+    Playercards,
   },
   data () {
     return {
@@ -47,6 +52,7 @@ export default {
       searchName: '',
       playerJSON: [],
       player: '',
+      arrow: false
 
     }
   },
@@ -83,6 +89,10 @@ export default {
     playerSelected(player) {
       this.searchName = player;
       this.findPlayer();
+      this.toggleArrow();
+      setTimeout(() => {
+        return this.toggleArrow();
+      }, 5000);
     },
 
     findPlayer() {
@@ -114,6 +124,10 @@ export default {
       })
       this.matchList = list.slice(0,11);
       this.searchName = '';
+    },
+    toggleArrow() {
+      console.log(this.arrow + "toggling arrow");
+      this.arrow = !this.arrow;
     }
   }
 }
@@ -145,24 +159,32 @@ $secondary: #1D428A;
 
 .bg-selected {
   width: 100%;
-  height: 70vh;
+  height: 50vh;
   display: flex;
   justify-content: center;
+
+  .search {
+    top: 33%;
+  }
 }
 
 .big-text {
   position: absolute;
-  top: 33%;
+  top: 37%;
   text-align: center;
   -ms-transform: translateY(-50%);
   transform: translateY(-50%);
   margin: 0;
-  padding: 10px 40px;
+  padding: 10px 30px;
   color: #bdc3c7;
+}
+
+.big-text-selected {
+  opacity: 0;
 }
 .search {
   position: absolute;
-  top: 50%;
+  top: 55%;
   left: 50%;
   width: 380px;
   overflow: visible;
@@ -188,6 +210,10 @@ $secondary: #1D428A;
   animation: animated-bounce 2s ease;
 }
 
+.arrow-container {
+  height: 30px;
+}
+
 @keyframes animated-bounce {
     0%, 20%, 50%, 80%, 100% {transform: translateY(0)}
     40% {transform: translateY(-30px)}
@@ -196,7 +222,7 @@ $secondary: #1D428A;
 
 @media only screen and (max-width: 420px) {
   .bg-selected {
-    height: 80vh;
+    height: 50vh;
   }
 
   .big-text {
@@ -204,12 +230,25 @@ $secondary: #1D428A;
   }
 
   .search {
-    width: 342px;
+    width: calc(100% - 60px);
     top: 60%;
   }
 
   .search-bar {
     padding-left: 20px;
   }
+}
+
+@media only screen and (max-height: 475px) {
+
+  .big-text {
+    top: 50%;
+  }
+
+  .search {
+    width: calc(100% - 60px);
+    top: 80%;
+  }
+
 }
 </style>
