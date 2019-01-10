@@ -9,7 +9,7 @@
           'big-text-selected': searchName.length >= 3 || matchList.length > 0
         }">
         <p id="title">Need fantasy basketball trade recommendations?</p>
-        <p>Pick a player you would like to trade, and we will offer suggestions</p>
+        <p>Pick a player you would like to trade, and we will help you find suggestions</p>
       </div>
       <div class="search">
         <input
@@ -158,12 +158,12 @@ $secondary: #1D428A;
 
 .bg-selected {
   width: 100%;
-  height: 50vh;
+  height: 40vh;
   display: flex;
   justify-content: center;
 
   .search {
-    top: 33%;
+    top: 25%;
   }
 }
 
@@ -179,13 +179,13 @@ $secondary: #1D428A;
 }
 
 .big-text-selected {
-  opacity: 0;
+  display: none;
 }
 .search {
   position: absolute;
   top: 55%;
   left: 50%;
-  width: 380px;
+  width: calc(48em - (48em*0.2));
   overflow: visible;
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
@@ -211,6 +211,7 @@ $secondary: #1D428A;
 
 .arrow-container {
   height: 30px;
+  padding: 10px 0;
 }
 
 @keyframes animated-bounce {
@@ -219,17 +220,14 @@ $secondary: #1D428A;
     60% {transform: translateY(-15px)}
 }
 
-@media only screen and (max-width: 420px) {
-  .bg-selected {
-    height: 50vh;
-  }
+@media only screen and (max-width: 48em) {
 
   .big-text {
     top: 40%;
   }
 
   .search {
-    width: calc(100% - 60px);
+    width: calc(100% - 20vw);
     top: 60%;
   }
 
@@ -238,16 +236,9 @@ $secondary: #1D428A;
   }
 }
 
-@media only screen and (max-height: 475px) {
-
-  .big-text {
+@media only screen and (min-width: 1080px) {
+  .search {
     top: 50%;
   }
-
-  .search {
-    width: calc(100% - 60px);
-    top: 80%;
-  }
-
 }
 </style>

@@ -43,6 +43,17 @@ export default {
 
 <style lang="css">
 
+.nav-container {
+  /* prevents accidental text highlighting */
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none; /* Non-prefixed version, currently
+                        supported by Chrome and Opera */
+}
+
 .side-bar {
   position: absolute;
   z-index: 1;
@@ -78,7 +89,7 @@ export default {
 
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 48em) {
   #hamburger {
     position: absolute;
     top: 30px;

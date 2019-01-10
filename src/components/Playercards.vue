@@ -325,6 +325,7 @@ button {
 .suggestions-container {
   background-color: #f5f7f9;
   margin: 0 10vw;
+  width: calc(100% - 20vw);
   padding: 20px 0;
   box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
   border-radius: 8px;
@@ -470,10 +471,7 @@ button {
   color: #fff;
 }
 
-@media only screen and (max-width: 600px) {
-  .suggestions-container {
-    margin: 0 30px;
-  }
+@media only screen and (max-width: 48em) {
   .card {
     width: calc(100% - 30px);
     font-size: 12px;
@@ -483,7 +481,7 @@ button {
   }
 }
 
-@media only screen and (max-width: 457px) {
+@media only screen and (max-width: 30em) {
   .filter-btns {
     display: flex;
     flex-flow: row wrap;

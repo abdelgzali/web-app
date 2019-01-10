@@ -42,7 +42,7 @@ $secondary: #1D428A;
   top: 20px;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 48em) {
   #logo {
     left: auto;
     right: 20px;
