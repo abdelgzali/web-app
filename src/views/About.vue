@@ -15,4 +15,12 @@ export default {
 </script>
 
 <style lang="css">
+.about {
+  width: calc(100% - 40px);
+  height: 100vh;
+  padding: 40px 20px 20px 20px;
+  display: flex;
+  flex-flow: column wrap;
+  color: #fff;
+}
 </style>

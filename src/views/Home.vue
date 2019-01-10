@@ -126,7 +126,6 @@ export default {
       this.searchName = '';
     },
     toggleArrow() {
-      console.log(this.arrow + "toggling arrow");
       this.arrow = !this.arrow;
     }
   }
