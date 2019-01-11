@@ -158,12 +158,12 @@ $secondary: #1D428A;
 
 .bg-selected {
   width: 100%;
-  height: 40vh;
+  height: 12em;
   display: flex;
   justify-content: center;
 
   .search {
-    top: 25%;
+    top: 8em;
   }
 }
 
@@ -221,18 +221,24 @@ $secondary: #1D428A;
 }
 
 @media only screen and (max-width: 48em) {
-
   .big-text {
-    top: 40%;
+    top: 35%;
   }
-
   .search {
     width: calc(100% - 20vw);
-    top: 60%;
   }
-
   .search-bar {
     padding-left: 20px;
+  }
+}
+
+@media only screen and (max-height: 28em ) {
+  .search {
+    top: 16em;
+  }
+
+  .big-text {
+    top: 10em;
   }
 }
 

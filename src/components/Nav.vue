@@ -1,14 +1,25 @@
 <template lang="html">
   <div class="nav-container">
-    <i id="hamburger" class="material-icons" @click="toggleSide">menu</i>
-    <div class="side-bar" v-if="sideBar">
-      <div id="close-btn" @click="toggleSide">
-        <i class="material-icons">close</i>
-      </div>
-      <div class="side-link" v-for="(item, index) in barItems">
+    <div class="desktop-view">
+      <div class="top-links" v-for="item in barItems">
         <router-link :to="item.link">
-          <span @click="toggleSide">{{item.title}}</span>
+          <i class="material-icons">{{item.icon}}</i>
+          <div class="link-title">{{item.title.toUpperCase()}}</div>
         </router-link>
+      </div>
+    </div>
+    <div class="mobile-view">
+      <i id="hamburger" class="material-icons" @click="toggleSide">menu</i>
+      <div class="side-bar" v-if="sideBar">
+        <div id="close-btn" @click="toggleSide">
+          <i class="material-icons">close</i>
+        </div>
+        <div class="side-link" v-for="(item, index) in barItems">
+          <router-link :to="item.link">
+            <i class="material-icons">{{item.icon}}</i>
+            <div class="link-title" @click="toggleSide">{{item.title.toUpperCase()}}</div>
+          </router-link>
+        </div>
       </div>
     </div>
   </div>
@@ -27,7 +38,7 @@ export default {
         },
         {
           title: 'About',
-          icon: 'about',
+          icon: 'assignment_ind',
           link: '/about'
         }
       ]
@@ -43,7 +54,13 @@ export default {
 
 <style lang="css">
 
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
 .nav-container {
+  background: none;
   /* prevents accidental text highlighting */
   -webkit-touch-callout: none; /* iOS Safari */
   -webkit-user-select: none; /* Safari */
@@ -54,6 +71,21 @@ export default {
                         supported by Chrome and Opera */
 }
 
+/* DESKTOP LINKS */
+.desktop-view {
+  right: 0;
+  top: 0;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: flex-end;
+}
+
+.top-links {
+  color: #fff;
+  padding: 2em 1em;
+}
+
+/* MOBILE LINKS */
 .side-bar {
   position: absolute;
   z-index: 1;
@@ -62,7 +94,7 @@ export default {
   background-color: #ecf0f1;
   height: 100vh;
   width: 40%;
-  padding: 50px 10px;
+  padding: 20px 20px;
   display: flex;
   flex-flow: column wrap;
   animation: 0.5s ease-out 0s 1 slideInFromLeft;
@@ -73,20 +105,25 @@ export default {
 }
 
 .side-link {
-  padding: 15px 5px;
+  padding: 25px 15px;
 }
 
 .side-link a {
-  text-decoration: none;
-  color: inherit;
+  display: flex;
+  flex-flow: row nowrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.link-title {
+  font-size: 1em;
+  margin: 0 10px;
 }
 
 #close-btn {
   cursor: pointer;
-  position: absolute;
-  top: 20px;
-  left: 80%;
-
+  display: flex;
+  justify-content: flex-end;
 }
 
 @media only screen and (max-width: 48em) {
@@ -96,6 +133,15 @@ export default {
     left: 30px;
     color: #fff;
     cursor: pointer;
+  }
+  .top-links {
+    display: none;
+  }
+}
+
+@media only screen and (min-width: 48em) {
+  .mobile-view {
+    display: none;
   }
 }
 
