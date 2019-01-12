@@ -1,8 +1,11 @@
 <template lang="html">
   <div class="nav-container">
+    <router-link :to="{ name: 'home' }">
+      <img id="logo" alt="Vue logo" src="logo2.png">
+    </router-link>
     <div class="desktop-view">
       <div class="top-links" v-for="item in barItems">
-        <router-link :to="item.link">
+        <router-link class="router-style" :to="item.link">
           <i class="material-icons">{{item.icon}}</i>
           <div class="link-title">{{item.title.toUpperCase()}}</div>
         </router-link>
@@ -52,15 +55,9 @@ export default {
 }
 </script>
 
-<style lang="css">
+<style lang="scss">
 
-a {
-  text-decoration: none;
-  color: inherit;
-}
-
-.nav-container {
-  background: none;
+@mixin no-select {
   /* prevents accidental text highlighting */
   -webkit-touch-callout: none; /* iOS Safari */
   -webkit-user-select: none; /* Safari */
@@ -71,18 +68,46 @@ a {
                         supported by Chrome and Opera */
 }
 
+@mixin flex-row {
+  display: flex;
+  flex-flow: row nowrap;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+.nav-container {
+  @include flex-row;
+  justify-content: space-between;
+  align-items: center;
+  @include no-select;
+}
+
+#logo {
+  height: 75px;
+  width: auto;
+  padding: 1em;
+}
+
 /* DESKTOP LINKS */
 .desktop-view {
   right: 0;
   top: 0;
-  display: flex;
-  flex-flow: row nowrap;
+  padding-right: 1em;
+  @include flex-row;
   justify-content: flex-end;
 }
 
 .top-links {
   color: #fff;
   padding: 2em 1em;
+}
+
+.router-style {
+  @include flex-row;
+  align-items: center;
 }
 
 /* MOBILE LINKS */
@@ -92,6 +117,7 @@ a {
   left: 0;
   top: 0;
   background-color: #ecf0f1;
+  color: #2c3e50;
   height: 100vh;
   width: 40%;
   padding: 20px 20px;
@@ -109,8 +135,7 @@ a {
 }
 
 .side-link a {
-  display: flex;
-  flex-flow: row nowrap;
+  @include flex-row;
   align-items: center;
   justify-content: center;
 }
@@ -127,10 +152,20 @@ a {
 }
 
 @media only screen and (max-width: 48em) {
+  #logo {
+    position: absolute;
+    left: auto;
+    right: 20px;
+    top: 20px;
+    height: 50px;
+    padding: 0;
+  }
+
   #hamburger {
     position: absolute;
-    top: 30px;
-    left: 30px;
+    @include no-select;
+    top: 1.2em;
+    left: 1.2em;
     color: #fff;
     cursor: pointer;
   }

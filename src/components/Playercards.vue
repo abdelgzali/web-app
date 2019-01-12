@@ -257,12 +257,12 @@ export default {
   methods: {
     // dynamic url's for profile pic based on name
     setImg(name) {
-      let nameArray = name.split(/[\s.-]+/);
+      let nameArray = name.split(" ");
       let firstName = nameArray[0];
       let lastName = nameArray[1];
       if (nameArray.length > 2) {
-        let suffix = nameArray[2];
-        console.log("https://nba-players.herokuapp.com/players/" + lastName + "_" + suffix + "/" + firstName);
+        let suffix = nameArray[2].replace(".", "");
+        //console.log("https://nba-players.herokuapp.com/players/" + lastName + "_" + suffix + "/" + firstName);
         return this.source = "https://nba-players.herokuapp.com/players/" + lastName + "_" + suffix + "/" + firstName
       }
       return this.source = "https://nba-players.herokuapp.com/players/" + lastName + "/" + firstName
@@ -324,8 +324,8 @@ button {
 
 .suggestions-container {
   background-color: #f5f7f9;
-  margin: 0 10vw;
-  width: calc(100% - 20vw);
+  margin: auto;
+  width: calc(100% - 40vw);
   padding: 20px 0;
   box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
   border-radius: 8px;
@@ -346,7 +346,7 @@ button {
   @include flex-col;
   background: rgb(255, 255, 255);
   margin: 20px auto;
-  width: 80%;
+  width: calc(100% - 30px);
   height: auto;
   box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
 }
@@ -472,8 +472,11 @@ button {
 }
 
 @media only screen and (max-width: 48em) {
+  .suggestions-container {
+    width: calc(100% - 4.8em);
+  }
+
   .card {
-    width: calc(100% - 30px);
     font-size: 12px;
   }
   #profile-pic {

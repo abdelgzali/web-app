@@ -1,5 +1,8 @@
 <template lang="html">
   <div class="home-container">
+    <div class="nav-bar">
+      <Nav/>
+    </div>
     <div :class="{
         'bg': searchName.length < 3,
         'bg-selected': searchName.length >= 3 || matchList.length > 0
@@ -14,7 +17,7 @@
       <div class="search">
         <input
           class="search-bar"
-          placeholder="search active NBA players"
+          placeholder="search active NBA players (ex. Lebron James)"
           v-model="searchName"
           @keyup="searchName = $event.target.value; findPlayer"
           type="search">
@@ -37,12 +40,14 @@
 // @ is an alias to /src
 import Autocomplete from '@/components/Autocomplete';
 import Playercards from '@/components/Playercards';
+import Nav from '@/components/Nav';
 
 export default {
   name: 'home',
   components: {
     Autocomplete,
     Playercards,
+    Nav
   },
   data () {
     return {
@@ -163,7 +168,7 @@ $secondary: #1D428A;
   justify-content: center;
 
   .search {
-    top: 8em;
+    top: 9em;
   }
 }
 
@@ -185,7 +190,7 @@ $secondary: #1D428A;
   position: absolute;
   top: 55%;
   left: 50%;
-  width: calc(48em - (48em*0.2));
+  width: calc(100% - 40vw);;
   overflow: visible;
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
@@ -225,7 +230,7 @@ $secondary: #1D428A;
     top: 35%;
   }
   .search {
-    width: calc(100% - 20vw);
+    width: calc(100% - 4.8em);
   }
   .search-bar {
     padding-left: 20px;
@@ -236,15 +241,9 @@ $secondary: #1D428A;
   .search {
     top: 16em;
   }
-
   .big-text {
     top: 10em;
   }
 }
 
-@media only screen and (min-width: 1080px) {
-  .search {
-    top: 50%;
-  }
-}
 </style>
