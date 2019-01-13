@@ -477,7 +477,9 @@ button {
 
 @media only screen and (max-width: 48em) {
   .suggestions-container {
-    width: calc(100% - 4.8em);
+    width: 100%;
+    margin: 0;
+    border-radius: 0;
   }
 
   .card {

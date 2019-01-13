@@ -16,7 +16,10 @@
       </div>
       <div class="search">
         <input
-          class="search-bar"
+          :class="{
+            'search-bar': searchName.length < 3,
+            'search-bar-focus': searchName.length >= 3
+          }"
           placeholder="search active NBA players (Lebron James)"
           v-model="searchName"
           @keyup="searchName = $event.target.value; findPlayer"
@@ -189,22 +192,33 @@ export default {
   position: absolute;
   top: 55%;
   left: 50%;
-  width: calc(100% - 40vw);;
+  width: calc(100% - 40vw);
   overflow: visible;
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
   margin: auto;
   box-sizing: border-box;
   border: 1px solid $secondary;
+  border-radius: 30px;
   background: rgb(255, 255, 255);
   box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
 }
 
 .search-bar {
-  margin: 5px auto;
-  width: 90%;
+  width: 100%;
+  padding: 5px 16px;
+  border-radius: 30px;
   height: 35px;
   border-style: none;
+}
+
+.search-bar-focus {
+  width: 100%;
+  padding: 5px 16px;
+  height: 35px;
+  border-style: none;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
 }
 
 #arrow-down {
@@ -232,9 +246,6 @@ export default {
   .search {
     width: calc(100% - 4.8em);
   }
-  .search-bar {
-    padding-left: 20px;
-  }
 }
 
 @media only screen and (max-height: 28em ) {
@@ -243,6 +254,12 @@ export default {
   }
   .big-text {
     top: 10em;
+  }
+}
+
+@media only screen and (min-width: 80em) {
+  .search {
+    width: calc(100% - 60vw);
   }
 }
 
