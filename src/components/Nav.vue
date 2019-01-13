@@ -56,22 +56,7 @@ export default {
 </script>
 
 <style lang="scss">
-
-@mixin no-select {
-  /* prevents accidental text highlighting */
-  -webkit-touch-callout: none; /* iOS Safari */
-  -webkit-user-select: none; /* Safari */
-  -khtml-user-select: none; /* Konqueror HTML */
-  -moz-user-select: none; /* Firefox */
-  -ms-user-select: none; /* Internet Explorer/Edge */
-  user-select: none; /* Non-prefixed version, currently
-                        supported by Chrome and Opera */
-}
-
-@mixin flex-row {
-  display: flex;
-  flex-flow: row nowrap;
-}
+@import "@/scss/_mixins.scss";
 
 a {
   text-decoration: none;

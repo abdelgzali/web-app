@@ -3,15 +3,20 @@
 
     <h3 id="suggestions-title">YOUR SUGGESTIONS</h3>
 
-    <div class="filter-btns">
-      <i class="material-icons">filter_list</i>
-      <button
-        type="button"
-        name="filter-btn"
-        v-for="(btn, index) in sortButtons"
-        @click="toggleSort(index) || sortBy(btn.category)"
-        :class="{active: btn.isActive}" >{{btn.category}}
-      </button>
+    <div class="filters-container">
+      <div class="filters-text-container">
+        <i class="material-icons">filter_list</i>
+        <p>filter players by category</p>
+      </div>
+      <div class="filter-btns">
+        <button
+          type="button"
+          name="filter-btn"
+          v-for="(btn, index) in sortButtons"
+          @click="toggleSort(index) || sortBy(btn.category)"
+          :class="{active: btn.isActive}" >{{btn.category}}
+        </button>
+      </div>
     </div>
 
     <div class="card" v-for="(suggested, index) in suggestions">
@@ -304,19 +309,9 @@ export default {
 </script>
 
 <style lang="scss">
+@import "@/scss/_mixins.scss";
+@import "@/scss/_variables.scss";
 
-$primary: #F21A13;
-$secondary: #1D428A;
-
-@mixin flex-row {
-  display: flex;
-  flex-flow: row nowrap;
-}
-
-@mixin flex-col {
-  display: flex;
-  flex-flow: column wrap;
-}
 
 button {
   background: none;
@@ -325,21 +320,18 @@ button {
 .suggestions-container {
   background-color: #f5f7f9;
   margin: auto;
+  margin-bottom: 40px;
   width: calc(100% - 40vw);
   padding: 20px 0;
   box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
   border-radius: 8px;
 
-  /* fade animation */
-  -webkit-animation: fadein 2s; /* Safari, Chrome and Opera > 12.1 */
-  -moz-animation: fadein 2s; /* Firefox < 16 */
-  -ms-animation: fadein 2s; /* Internet Explorer */
-  -o-animation: fadein 2s; /* Opera < 12.1 */
-  animation: fadein 2s;
+  @include fade-div;
 }
 
 #suggestions-title {
-  margin: 40px auto;
+  @include no-select;
+  margin: 20px 0 40px 0;
 }
 
 .card {
@@ -403,14 +395,26 @@ button {
 }
 
 /* FILTERS */
+.filters-container {
+  margin-top: 20px;
+}
+.filters-text-container {
+  @include flex-row;
+  @include no-select;
+  justify-content: center;
+  font-size: 0.8em;
+  color: #fff;
+  background-color: $primary;
+}
+
 .material-icons {
   margin: auto 5px;
 }
 .filter-btns {
   @include flex-row;
   justify-content: space-between;
-  box-shadow: 0 1px 0 rgba(12,13,14,0.1), 0 1px 6px rgba(59,64,69,0.1);
   overflow-x: scroll;
+  box-shadow: 0 1px 0 rgba(12,13,14,0.1), 0 1px 6px rgba(59,64,69,0.1);
 }
 .filter-btns button {
   border: none;
@@ -482,18 +486,17 @@ button {
   #profile-pic {
     width: 50%;
   }
-}
 
-@media only screen and (max-width: 30em) {
   .filter-btns {
     display: flex;
     flex-flow: row wrap;
-    justify-content: space-between;
+    justify-content: space-around;
   }
   .filter-btns button {
-    width: 52px;
+    width: 20%;
   }
 }
+
 
 /* animation keyframes */
 @keyframes fadein {

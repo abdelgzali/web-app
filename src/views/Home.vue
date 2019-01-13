@@ -17,7 +17,7 @@
       <div class="search">
         <input
           class="search-bar"
-          placeholder="search active NBA players (ex. Lebron James)"
+          placeholder="search active NBA players (Lebron James)"
           v-model="searchName"
           @keyup="searchName = $event.target.value; findPlayer"
           type="search">
@@ -139,8 +139,7 @@ export default {
 
 <style lang="scss">
 
-$primary: #F21A13;
-$secondary: #1D428A;
+@import "@/scss/_variables.scss";
 
 *:focus {
     outline: none;
@@ -168,7 +167,7 @@ $secondary: #1D428A;
   justify-content: center;
 
   .search {
-    top: 9em;
+    top: 10em;
   }
 }
 
@@ -217,6 +216,7 @@ $secondary: #1D428A;
 .arrow-container {
   height: 30px;
   padding: 10px 0;
+  margin-top: 20px;
 }
 
 @keyframes animated-bounce {

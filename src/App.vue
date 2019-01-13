@@ -16,8 +16,7 @@ import Nav from '@/components/Nav'
 
 <style lang="scss">
 
-$primary: #F21A13;
-$secondary: #1D428A;
+@import "@/scss/_variables.scss";
 
 #app {
   font-family: 'Lato', Helvetica, Arial, sans-serif;
