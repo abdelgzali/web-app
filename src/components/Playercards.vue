@@ -6,7 +6,7 @@
     <div class="filters-container">
       <div class="filters-text-container">
         <i class="material-icons">filter_list</i>
-        <p>filter players by category</p>
+        <p id="filter-title">filter players by category</p>
       </div>
       <div class="filter-btns">
         <button
@@ -263,11 +263,11 @@ export default {
     // dynamic url's for profile pic based on name
     setImg(name) {
       let nameArray = name.split(" ");
-      let firstName = nameArray[0];
+      let firstName = nameArray[0].replace(/[. | ']/, "");
       let lastName = nameArray[1];
       if (nameArray.length > 2) {
         let suffix = nameArray[2].replace(".", "");
-        //console.log("https://nba-players.herokuapp.com/players/" + lastName + "_" + suffix + "/" + firstName);
+        console.log("https://nba-players.herokuapp.com/players/" + lastName + "_" + suffix + "/" + firstName);
         return this.source = "https://nba-players.herokuapp.com/players/" + lastName + "_" + suffix + "/" + firstName
       }
       return this.source = "https://nba-players.herokuapp.com/players/" + lastName + "/" + firstName
@@ -398,6 +398,9 @@ button {
 .filters-container {
   margin-top: 20px;
 }
+#filter-title {
+  font-family: Montserrat, sans-serif;
+}
 .filters-text-container {
   @include flex-row;
   @include no-select;
@@ -418,6 +421,7 @@ button {
 }
 .filter-btns button {
   border: none;
+  font-weight: bold;
   cursor: pointer;
   height: 40px;
   width: 100%;

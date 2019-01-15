@@ -39,14 +39,23 @@ export default {
       }
       if (this.query.length > 2) {
         this.visible = true;
-        return this.items.filter((item) => item.toLowerCase().includes(this.query.toLowerCase()))
+        console.log("finding player...");
+        let queryList = this.items.filter((item) => item.toLowerCase().includes(this.query.toLowerCase()));
+        if (queryList.length < 1) {
+          console.log("none");
+          let none = ["No matches found"];
+          return none
+        } else {
+          return queryList
+        }
       }
     }
   }
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+@import "@/scss/_mixins.scss";
 
 ul {
   list-style: none;
@@ -81,6 +90,12 @@ li:hover {
 .options {
   border-top: 1px solid #ecf0f1;
   transition: all .3s linear;
+}
+
+@media only screen and (max-width: 48em) {
+  .search {
+    width: calc(100% - 4.8em);
+  }
 }
 
 </style>

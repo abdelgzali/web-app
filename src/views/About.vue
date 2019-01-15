@@ -50,7 +50,7 @@ $secondary: #1D428A;
 }
 
 .about-text {
-  height: 50vh;
+  margin-top: 5em;
   border-radius: 8px;
   filter:drop-shadow(1px 1px 3px black);
 }
@@ -68,6 +68,7 @@ $secondary: #1D428A;
 
 #fb-ninja {
   color: $primary;
+  font-family: Montserrat, sans-serif;
 }
 
 @media only screen and (min-width: 48em) {

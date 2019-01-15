@@ -1,5 +1,8 @@
 <template lang="html">
-  <div class="home-container">
+  <div :class="{
+      'home-container': matchList.length < 1,
+      'home-container-selected': matchList.length >= 1
+    }">
     <div class="nav-bar">
       <Nav/>
     </div>
@@ -12,18 +15,19 @@
           'big-text-selected': searchName.length >= 3 || matchList.length > 0
         }">
         <p id="title">Need fantasy basketball trade recommendations?</p>
-        <p>Pick a player you would like to trade, and we will help you find suggestions</p>
+        <p id="sub-title">Pick a player you would like to trade, and we will help you find suggestions</p>
       </div>
       <div class="search">
         <input
           :class="{
-            'search-bar': searchName.length < 3,
-            'search-bar-focus': searchName.length >= 3
+            'search-bar': searchName.length < 1,
+            'search-bar-focus': searchName.length >= 1
           }"
-          placeholder="search active NBA players (Lebron James)"
+          placeholder="search active NBA players (ex. Lebron)"
           v-model="searchName"
           @keyup="searchName = $event.target.value; findPlayer"
-          type="search">
+          type="search"
+          @focus="scrollToTop">
         <Autocomplete
           :items="playerNames"
           v-bind:tQuery="searchName"
@@ -135,17 +139,26 @@ export default {
     },
     toggleArrow() {
       this.arrow = !this.arrow;
+    },
+    scrollToTop() {
+      window.scrollTo(0,0);
     }
   }
 }
 </script>
 
 <style lang="scss">
-
+@import "@/scss/_mixins.scss";
 @import "@/scss/_variables.scss";
 
 *:focus {
     outline: none;
+}
+.home-container {
+  height: 100vh;
+}
+.home-container-selected {
+  height: auto;
 }
 
 #title {
@@ -154,6 +167,10 @@ export default {
   font-weight: bold;
   font-size: 24px;
   margin: 0;
+}
+#sub-title {
+  font-family: Montserrat, sans-serif;
+  font-size: 12px;
 }
 
 .bg {
@@ -165,7 +182,7 @@ export default {
 
 .bg-selected {
   width: 100%;
-  height: 12em;
+  height: 35vh;
   display: flex;
   justify-content: center;
 
@@ -176,7 +193,7 @@ export default {
 
 .big-text {
   position: absolute;
-  top: 37%;
+  top: 35%;
   text-align: center;
   -ms-transform: translateY(-50%);
   transform: translateY(-50%);
@@ -189,8 +206,9 @@ export default {
   display: none;
 }
 .search {
+  @include fade-div;
   position: absolute;
-  top: 55%;
+  top: 50%;
   left: 50%;
   width: calc(100% - 40vw);
   overflow: visible;
@@ -206,19 +224,20 @@ export default {
 
 .search-bar {
   width: 100%;
-  padding: 5px 16px;
+  padding: 5px 20px;
   border-radius: 30px;
-  height: 35px;
+  height: 40px;
   border-style: none;
 }
 
 .search-bar-focus {
+  @include fade-div;
   width: 100%;
   padding: 5px 16px;
   height: 35px;
   border-style: none;
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
+  border-radius: 0px;
+
 }
 
 #arrow-down {
@@ -233,31 +252,32 @@ export default {
   margin-top: 20px;
 }
 
-@keyframes animated-bounce {
-    0%, 20%, 50%, 80%, 100% {transform: translateY(0)}
-    40% {transform: translateY(-30px)}
-    60% {transform: translateY(-15px)}
-}
-
 @media only screen and (max-width: 48em) {
+  .home-container {
+    height: 100vh;
+  }
+  .bg-selected {
+    height: 12em;
+  }
   .big-text {
     top: 35%;
   }
   .search {
+    top: 50%;
     width: calc(100% - 4.8em);
   }
 }
 
 @media only screen and (max-height: 28em ) {
-  .search {
-    top: 16em;
-  }
   .big-text {
-    top: 10em;
+    top: 17em;
   }
 }
 
 @media only screen and (min-width: 80em) {
+  .bg-selected {
+    height: 25vh;
+  }
   .search {
     width: calc(100% - 60vw);
   }
