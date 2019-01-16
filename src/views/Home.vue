@@ -3,9 +3,7 @@
       'home-container': matchList.length < 1,
       'home-container-selected': matchList.length >= 1
     }">
-    <div class="nav-bar">
-      <Nav/>
-    </div>
+    <Nav/>
     <div :class="{
         'bg': searchName.length < 3,
         'bg-selected': searchName.length >= 3 || matchList.length > 0
@@ -182,7 +180,7 @@ export default {
 
 .bg-selected {
   width: 100%;
-  height: 35vh;
+  height: 15vh;
   display: flex;
   justify-content: center;
 
@@ -275,9 +273,7 @@ export default {
 }
 
 @media only screen and (min-width: 80em) {
-  .bg-selected {
-    height: 25vh;
-  }
+
   .search {
     width: calc(100% - 60vw);
   }
